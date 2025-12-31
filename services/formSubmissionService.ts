@@ -84,20 +84,36 @@ class FormSubmissionService {
   private async sendTelegramNotification(submission: FormSubmission): Promise<void> {
     const url = `https://api.telegram.org/bot${this.config.telegramBotToken}/sendMessage`;
 
-    const text = `New Service Request Received
+    let text = `🚨 New Service Request
 
-Name: ${submission.name}
-Email: ${submission.email}
-Phone: ${submission.phone}
-Company: ${submission.company || 'Not provided'}
-Service: ${submission.service}
-Message:
+👤 ${submission.name}
+📧 ${submission.email}
+📱 ${submission.phone}
+🏢 ${submission.company || 'Not specified'}
+🛠️ ${submission.service}
 
-${submission.message}
+💬 ${submission.message}
 
-Submitted: ${submission.submittedAt.toLocaleString()}
+⏰ ${submission.submittedAt.toLocaleString()}
+⚡ Contact within 24hrs!`;
 
-Please contact the client within 24 hours.`;
+    // Check message length (Telegram limit is 4096 characters)
+    if (text.length > 4000) {
+      // Truncate message if too long
+      const messagePreview = submission.message.substring(0, 500) + '...';
+      text = `🚨 New Service Request
+
+👤 ${submission.name}
+📧 ${submission.email}
+📱 ${submission.phone}
+🏢 ${submission.company || 'Not specified'}
+🛠️ ${submission.service}
+
+💬 ${messagePreview}
+
+⏰ ${submission.submittedAt.toLocaleString()}
+⚡ Contact within 24hrs!`;
+    }
 
     const response = await fetch(url, {
       method: 'POST',
