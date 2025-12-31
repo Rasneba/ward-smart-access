@@ -62,6 +62,32 @@ A modern, colorful React application for Ward Smart Access & IT Solutions, featu
 - **Email**: admin@ward.et
 - **Password**: demo123
 
+## 👤 User Registration
+
+The application now supports user registration and authentication:
+
+### Features
+- ✅ **User Registration**: New users can create accounts
+- ✅ **Secure Login**: Email/password authentication
+- ✅ **Role-based Access**: Support for different user roles (admin, user)
+- ✅ **Session Management**: Local storage for user sessions
+- ✅ **Database Integration**: Works with both Supabase and mock database
+
+### Registration Process
+1. Navigate to `/login` route
+2. Click "Create Account" to switch to registration mode
+3. Fill in email and password
+4. Submit to create new account
+5. Login with your new credentials
+
+### Database Tables
+User data is stored in the `users` table with the following structure:
+- `id`: Primary key
+- `email`: Unique email address
+- `password_hash`: Password (hashed in production)
+- `role`: User role (admin/user)
+- `created_at`: Registration timestamp
+
 ## 🌐 Netlify Deployment
 
 ### Option 1: Direct Deploy
@@ -99,18 +125,27 @@ A modern, colorful React application for Ward Smart Access & IT Solutions, featu
 2. Create a new project
 3. Copy the connection string
 
-### 2. Set up Tables
+### 2. Run Database Setup
 
-Create these tables in your Neon database:
+Execute the `database-setup.sql` file in your database to create all necessary tables:
 
 ```sql
--- Users table
+-- Tables created: users, gallery_images, contact_forms
+-- Includes demo admin user and sample gallery data
+```
+
+### 3. Set up Tables (Alternative Manual Setup)
+
+If you prefer manual setup, create these tables in your Neon database:
+
+```sql
+-- Users table for authentication
 CREATE TABLE users (
   id SERIAL PRIMARY KEY,
   email VARCHAR(255) UNIQUE NOT NULL,
   password_hash VARCHAR(255) NOT NULL,
   role VARCHAR(50) DEFAULT 'user',
-  created_at TIMESTAMP DEFAULT NOW()
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
 -- Gallery images table
@@ -120,7 +155,7 @@ CREATE TABLE gallery_images (
   title VARCHAR(255) NOT NULL,
   description TEXT,
   location VARCHAR(255),
-  created_at TIMESTAMP DEFAULT NOW()
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
 -- Contact forms table
@@ -130,8 +165,9 @@ CREATE TABLE contact_forms (
   email VARCHAR(255) NOT NULL,
   phone VARCHAR(50),
   company VARCHAR(255),
+  service VARCHAR(100),
   message TEXT,
-  created_at TIMESTAMP DEFAULT NOW()
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 ```
 

@@ -1,30 +1,40 @@
 import React, { useState } from 'react';
-import { Eye, EyeOff, Lock, Mail, Sparkles, ArrowRight } from 'lucide-react';
+import { Eye, EyeOff, Lock, Mail, Sparkles, ArrowRight, UserPlus } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { databaseService } from '../services/databaseService.ts';
 
 const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isRegisterMode, setIsRegisterMode] = useState(false);
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      // Simulate login - replace with actual authentication
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      if (email && password) {
-        toast.success('Login successful!');
-        // Redirect to dashboard or home
-        window.location.hash = '#/';
+      if (isRegisterMode) {
+        // Registration
+        await databaseService.registerUser(email, password);
+        toast.success('Registration successful! Please login with your credentials.');
+        setIsRegisterMode(false);
       } else {
-        toast.error('Please fill in all fields');
+        // Login
+        const user = await databaseService.authenticateUser(email, password);
+        if (user) {
+          toast.success('Login successful!');
+          // Store user session (you might want to use a proper auth context)
+          localStorage.setItem('user', JSON.stringify(user));
+          // Redirect to dashboard or home
+          window.location.hash = '#/';
+        } else {
+          toast.error('Invalid credentials');
+        }
       }
-    } catch (error) {
-      toast.error('Login failed. Please try again.');
+    } catch (error: any) {
+      toast.error(error.message || `${isRegisterMode ? 'Registration' : 'Login'} failed. Please try again.`);
     } finally {
       setIsLoading(false);
     }
@@ -47,16 +57,16 @@ const Login: React.FC = () => {
             Ward Access Control
           </div>
           <h1 className="text-4xl font-black text-white mb-2 tracking-tighter uppercase">
-            Welcome Back
+            {isRegisterMode ? 'Create Account' : 'Welcome Back'}
           </h1>
           <p className="text-white/80 text-lg">
-            Access your security dashboard
+            {isRegisterMode ? 'Join Ward Smart Access' : 'Access your security dashboard'}
           </p>
         </div>
 
         {/* Login Form */}
         <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 border border-white/20 shadow-2xl">
-          <form onSubmit={handleLogin} className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
             {/* Email Field */}
             <div className="space-y-2">
               <label className="text-white font-semibold text-sm uppercase tracking-widest">
@@ -125,7 +135,7 @@ const Login: React.FC = () => {
               ) : (
                 <ArrowRight className="w-5 h-5 mr-2" />
               )}
-              {isLoading ? 'Signing In...' : 'Sign In'}
+              {isLoading ? (isRegisterMode ? 'Creating Account...' : 'Signing In...') : (isRegisterMode ? 'Create Account' : 'Sign In')}
             </button>
           </form>
 
@@ -140,8 +150,15 @@ const Login: React.FC = () => {
         {/* Footer */}
         <div className="text-center mt-6">
           <p className="text-white/60 text-sm">
-            Don't have an account?{' '}
-            <a href="#" className="text-yellow-300 hover:text-yellow-200 font-semibold transition-colors">
+            {isRegisterMode ? 'Already have an account?' : "Don't have an account?"}{' '}
+            <button
+              onClick={() => setIsRegisterMode(!isRegisterMode)}
+              className="text-yellow-300 hover:text-yellow-200 font-semibold transition-colors"
+            >
+              {isRegisterMode ? 'Sign In' : 'Create Account'}
+            </button>
+          </p>
+        </div>
               Contact support
             </a>
           </p>

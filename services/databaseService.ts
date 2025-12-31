@@ -31,6 +31,30 @@ export const mockDatabase = {
     return null;
   },
 
+  async registerUser(email: string, password: string, role: string = 'user') {
+    // Check if user already exists
+    const existingUser = this.users.find(u => u.email === email);
+    if (existingUser) {
+      throw new Error('User already exists');
+    }
+
+    const newUser = {
+      id: this.users.length + 1,
+      email,
+      password, // In real app, this would be hashed
+      role,
+      created_at: new Date().toISOString()
+    };
+
+    this.users.push(newUser);
+    return {
+      id: newUser.id,
+      email: newUser.email,
+      role: newUser.role,
+      token: 'mock-jwt-token-' + Date.now()
+    };
+  },
+
   async getGalleryImages() {
     // This would normally fetch from Neon DB
     return [
@@ -68,6 +92,29 @@ export const databaseService = {
       }
     } else {
       return mockDatabase.authenticateUser(email, password);
+    }
+  },
+
+  async registerUser(email: string, password: string, role: string = 'user') {
+    if (supabase) {
+      try {
+        const { data, error } = await supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            data: {
+              role: role
+            }
+          }
+        });
+        if (error) throw error;
+        return data;
+      } catch (error) {
+        console.error('Supabase registration error:', error);
+        throw error;
+      }
+    } else {
+      return mockDatabase.registerUser(email, password, role);
     }
   },
 
