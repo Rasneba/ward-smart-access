@@ -129,6 +129,57 @@ const App: React.FC = () => {
               </div>
             </section>
 
+            {/* Parking Gates Section */}
+            <section className="bg-gradient-to-br from-gray-50 to-blue-50 py-32">
+              <div className="max-w-7xl mx-auto px-4">
+                <div className="text-center mb-20">
+                  <span className="text-blue-600 font-black uppercase tracking-[0.3em] text-xs mb-4 block">Parking Solutions</span>
+                  <h2 className="text-5xl md:text-6xl font-black text-blue-900 mb-8 tracking-tighter uppercase">AUTOMATED ACCESS <br />FOR VEHICLES.</h2>
+                  <p className="text-lg text-gray-500 max-w-3xl mx-auto leading-relaxed">
+                    Complete parking gate automation with RFID/NFC access control. Sales, installation, and comprehensive maintenance services for residential complexes, offices, and commercial properties.
+                  </p>
+                </div>
+
+                <div className="grid md:grid-cols-3 gap-8">
+                  <div className="bg-white p-8 rounded-[2rem] shadow-lg border border-gray-100 hover:shadow-xl transition-all">
+                    <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mb-6">
+                      <ShieldCheck className="w-8 h-8 text-white" />
+                    </div>
+                    <h3 className="text-2xl font-black mb-4 uppercase tracking-tighter">Gate Sales</h3>
+                    <p className="text-gray-500 leading-relaxed mb-6">Heavy-duty automated parking barriers with RFID/NFC integration. Custom installation for any property size.</p>
+                    <div className="text-3xl font-black text-blue-900 mb-2">$1,200</div>
+                    <div className="text-xs text-gray-400 uppercase tracking-widest">Complete System</div>
+                  </div>
+
+                  <div className="bg-white p-8 rounded-[2rem] shadow-lg border border-gray-100 hover:shadow-xl transition-all">
+                    <div className="w-16 h-16 bg-gradient-to-r from-green-500 to-teal-600 rounded-2xl flex items-center justify-center mb-6">
+                      <Cpu className="w-8 h-8 text-white" />
+                    </div>
+                    <h3 className="text-2xl font-black mb-4 uppercase tracking-tighter">Installation</h3>
+                    <p className="text-gray-500 leading-relaxed mb-6">Professional installation by certified technicians. Includes wiring, testing, and user training.</p>
+                    <div className="text-3xl font-black text-blue-900 mb-2">$300</div>
+                    <div className="text-xs text-gray-400 uppercase tracking-widest">Installation Fee</div>
+                  </div>
+
+                  <div className="bg-white p-8 rounded-[2rem] shadow-lg border border-gray-100 hover:shadow-xl transition-all">
+                    <div className="w-16 h-16 bg-gradient-to-r from-orange-500 to-red-600 rounded-2xl flex items-center justify-center mb-6">
+                      <Globe className="w-8 h-8 text-white" />
+                    </div>
+                    <h3 className="text-2xl font-black mb-4 uppercase tracking-tighter">Maintenance</h3>
+                    <p className="text-gray-500 leading-relaxed mb-6">Annual maintenance contracts with emergency repair services. Keep your gates operating smoothly.</p>
+                    <div className="text-3xl font-black text-blue-900 mb-2">$150</div>
+                    <div className="text-xs text-gray-400 uppercase tracking-widest">Annual Service</div>
+                  </div>
+                </div>
+
+                <div className="text-center mt-16">
+                  <a href="#/request" className="px-12 py-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold rounded-full hover:from-blue-700 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-blue-500/25 uppercase tracking-widest text-sm">
+                    Request Parking Gate Quote
+                  </a>
+                </div>
+              </div>
+            </section>
+
             <SecurityAdvisor />
           </>
         );

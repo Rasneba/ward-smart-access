@@ -2,8 +2,8 @@
 export interface Product {
   id: string;
   name: string;
-  brand: 'Yale' | 'Aqara';
-  category: 'Smart Locks' | 'Safes' | 'Sensors' | 'Hubs' | 'Cameras' | 'Accessories';
+  brand: 'Yale' | 'Aqara' | 'Ward' | 'RFID Solutions' | 'NFC Tech' | 'Gate Systems';
+  category: 'Smart Locks' | 'Safes' | 'Sensors' | 'Hubs' | 'Cameras' | 'Accessories' | 'RFID Cards' | 'NFC Tags' | 'Wrist Bands' | 'Parking Gates' | 'Access Control';
   price: number;
   image: string;
   description: string;

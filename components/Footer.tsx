@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { ShieldCheck, Mail, Phone, MapPin, Linkedin, Globe } from 'lucide-react';
+import { ShieldCheck, Mail, Phone, MapPin, Linkedin, Globe, MessageCircle } from 'lucide-react';
 
 const Footer: React.FC = () => {
   return (
@@ -20,6 +20,7 @@ const Footer: React.FC = () => {
             </p>
             <div className="flex space-x-4">
               <a href="#" className="p-3 rounded-xl bg-blue-900/50 hover:bg-blue-600 transition-colors"><Linkedin className="w-5 h-5" /></a>
+              <a href="https://wa.me/251912009497" target="_blank" rel="noopener noreferrer" className="p-3 rounded-xl bg-green-900/50 hover:bg-green-600 transition-colors"><MessageCircle className="w-5 h-5" /></a>
               <a href="#" className="p-3 rounded-xl bg-blue-900/50 hover:bg-blue-600 transition-colors"><Globe className="w-5 h-5" /></a>
               <a href="mailto:info@wardsmart.com" className="p-3 rounded-xl bg-blue-900/50 hover:bg-blue-600 transition-colors"><Mail className="w-5 h-5" /></a>
             </div>
@@ -58,7 +59,7 @@ const Footer: React.FC = () => {
               <li className="flex items-start gap-4">
                 <MapPin className="w-5 h-5 text-blue-400 shrink-0" />
                 <div className="flex flex-col">
-                  <span className="text-white font-bold tracking-widest uppercase">Addis Ababa, Ethiopia</span>
+                  <a href="https://maps.app.goo.gl/KwKDkXuPeFATSEo29" target="_blank" rel="noopener noreferrer" className="text-white font-bold tracking-widest uppercase hover:text-blue-400 transition-colors">Addis Ababa, Ethiopia</a>
                   <span className="text-[10px] uppercase">Bole Subcity, Area 02</span>
                 </div>
               </li>
