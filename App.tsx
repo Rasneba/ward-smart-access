@@ -4,7 +4,7 @@ import Hero from './components/Hero.tsx';
 import ProductGrid from './components/ProductGrid.tsx';
 import SecurityAdvisor from './components/SecurityAdvisor.tsx';
 import Gallery from './components/Gallery.tsx';
-import Login from './components/Login.tsx';
+import RequestForm from './components/RequestForm.tsx';
 import Footer from './components/Footer.tsx';
 import { ShieldCheck, Phone, Cpu, Globe, ArrowUpRight } from 'lucide-react';
 import { Toaster } from 'react-hot-toast';
@@ -40,8 +40,8 @@ const App: React.FC = () => {
         return <SecurityAdvisor />;
       case 'gallery':
         return <Gallery />;
-      case 'login':
-        return <Login />;
+      case 'request':
+        return <RequestForm />;
       case 'it-solutions':
         return (
           <div className="py-40 bg-white px-4">

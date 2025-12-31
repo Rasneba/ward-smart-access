@@ -36,7 +36,6 @@ const Navbar: React.FC = () => {
 
           <div className="hidden md:flex items-center space-x-6">
             <button className="text-gray-400 hover:text-pink-500 transition-colors"><Search className="w-5 h-5" /></button>
-            <a href="#/login" className="text-gray-400 hover:text-purple-500 transition-colors"><User className="w-5 h-5" /></a>
             <a href="tel:+251912009497" className="px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 text-white text-xs font-bold uppercase tracking-widest rounded-full hover:from-pink-600 hover:to-purple-700 transition-all transform hover:scale-105">
               Consult Now
             </a>

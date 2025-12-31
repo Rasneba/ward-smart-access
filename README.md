@@ -177,9 +177,46 @@ Update Tailwind config or use custom CSS variables for consistent theming.
 
 This project is licensed under the MIT License.
 
-## 📞 Support
+## � **Request Submission Form**
 
-For support, contact:
-- **Phone**: +251 912 009497
-- **Email**: admin@ward.et
-- **Website**: [Ward Smart Access](https://ward.et)
+The website now includes a comprehensive request submission form where visitors can:
+
+- Submit consultation requests
+- Request quotes for services
+- Provide detailed project requirements
+- Receive automatic email notifications (when configured)
+
+### **Form Features:**
+- ✅ **Service Selection**: Smart Locks, Security Systems, IT Infrastructure, etc.
+- ✅ **Contact Information**: Name, email, phone, company
+- ✅ **Detailed Requirements**: Custom message field
+- ✅ **Success Confirmation**: Immediate feedback and status updates
+- ✅ **Data Storage**: Submissions stored locally with export capability
+
+### **Email Configuration:**
+
+To receive form submissions via email, configure the following in your `.env.local`:
+
+```env
+# Email Settings
+VITE_EMAIL_ENABLED=true
+VITE_EMAIL_RECIPIENT=your-email@domain.com
+VITE_SMTP_SERVER=smtp.gmail.com
+VITE_SMTP_PORT=587
+VITE_SMTP_USER=your-email@gmail.com
+VITE_SMTP_PASSWORD=your-app-password
+```
+
+**For Gmail**: Use an "App Password" instead of your regular password.
+
+### **Web.config Setup:**
+
+The `Web.config` file contains email configuration templates. Copy settings from `Web.config` to your environment variables.
+
+### **Alternative Email Services:**
+
+For production, consider using dedicated email services:
+- **SendGrid**: Professional email delivery
+- **Mailgun**: Transactional email service
+- **AWS SES**: Amazon's email service
+- **Netlify Functions**: Serverless email handling

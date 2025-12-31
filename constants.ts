@@ -126,7 +126,7 @@ export const NAVIGATION_LINKS = [
   { name: 'Solutions', href: '#/' },
   { name: 'Smart Access', href: '#/products' },
   { name: 'Gallery', href: '#/gallery' },
+  { name: 'Request Quote', href: '#/request' },
   { name: 'IT Services', href: '#/it-solutions' },
   { name: 'Security Advisor', href: '#/advisor' },
-  { name: 'Login', href: '#/login' },
 ];

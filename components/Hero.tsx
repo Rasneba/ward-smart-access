@@ -30,16 +30,16 @@ const Hero: React.FC = () => {
 
             <div className="mt-10 flex flex-col sm:flex-row justify-center lg:justify-start gap-4">
               <a
-                href="#/products"
+                href="#/advisor"
                 className="px-10 py-5 bg-gradient-to-r from-pink-500 to-purple-600 text-white font-bold rounded-full hover:from-pink-600 hover:to-purple-700 transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-pink-500/25"
               >
-                View Catalog
+                Get Free Consultation
               </a>
               <a
-                href="#/login"
+                href="#/products"
                 className="px-10 py-5 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-bold rounded-full hover:from-cyan-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/25"
               >
-                Login to Dashboard
+                View Products
               </a>
             </div>
           </div>
