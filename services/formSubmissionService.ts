@@ -25,12 +25,12 @@ class FormSubmissionService {
   constructor() {
     // Load configuration from environment variables (can be set from Web.config)
     this.config = {
-      emailEnabled: import.meta.env.VITE_EMAIL_ENABLED === 'true' || false,
-      emailRecipient: import.meta.env.VITE_EMAIL_RECIPIENT || 'admin@ward.et',
-      smtpServer: import.meta.env.VITE_SMTP_SERVER || 'smtp.gmail.com',
-      smtpPort: parseInt(import.meta.env.VITE_SMTP_PORT || '587'),
-      smtpUser: import.meta.env.VITE_SMTP_USER,
-      smtpPassword: import.meta.env.VITE_SMTP_PASSWORD,
+      emailEnabled: (import.meta as any).env?.VITE_EMAIL_ENABLED === 'true' || false,
+      emailRecipient: (import.meta as any).env?.VITE_EMAIL_RECIPIENT || 'admin@ward.et',
+      smtpServer: (import.meta as any).env?.VITE_SMTP_SERVER || 'smtp.gmail.com',
+      smtpPort: parseInt((import.meta as any).env?.VITE_SMTP_PORT || '587'),
+      smtpUser: (import.meta as any).env?.VITE_SMTP_USER,
+      smtpPassword: (import.meta as any).env?.VITE_SMTP_PASSWORD,
     };
 
     // Load existing submissions from localStorage (for demo purposes)
