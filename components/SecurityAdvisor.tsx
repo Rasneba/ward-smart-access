@@ -20,9 +20,17 @@ const SecurityAdvisor: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    const recommendation = await getSmartRecommendation(form);
-    setResult(recommendation);
-    setLoading(false);
+    setResult(null); // Clear previous result immediately
+
+    try {
+      const recommendation = await getSmartRecommendation(form);
+      setResult(recommendation);
+    } catch (error) {
+      console.error('Recommendation failed:', error);
+      setResult({ error: 'Unable to generate recommendation. Please try again.' });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {

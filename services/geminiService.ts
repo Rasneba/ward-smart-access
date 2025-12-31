@@ -5,57 +5,83 @@ import { RecommendationRequest } from '../types.ts';
 const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
 
 export const getSmartRecommendation = async (request: RecommendationRequest) => {
-  const response = await ai.models.generateContent({
-    model: "gemini-3-flash-preview",
-    contents: `As a senior security consultant for Ward Smart Access & IT Solutions based in Addis Ababa, recommend a premium setup for:
-      - Primary Access: ${request.doorType}
-      - Context: ${request.usageType}
-      - Preferred Connectivity: ${request.connectivityPreference}
-      - Budget Profile: ${request.budget}
-
-      Ward provides Yale-standard deadbolts, Nuki-style retrofit locks, and Aqara environmental sensors. Provide a solution that considers the specific infrastructure needs of modern Addis Ababa residences.`,
-    config: {
-      responseMimeType: "application/json",
-      responseSchema: {
-        type: Type.OBJECT,
-        properties: {
-          recommendedProductId: { type: Type.STRING, description: 'The Ward Product Combo Name' },
-          reasoning: { type: Type.STRING, description: 'Why this is the perfect solution for their lifestyle' },
-          securityTips: { 
-            type: Type.ARRAY, 
-            items: { type: Type.STRING },
-            description: '3 professional security or automation tips'
-          }
-        },
-        required: ["recommendedProductId", "reasoning", "securityTips"]
-      }
-    }
-  });
-
   try {
+    // Add timeout to prevent hanging
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('Request timeout')), 10000)
+    );
+
+    const responsePromise = ai.models.generateContent({
+      model: "gemini-1.5-flash",
+      contents: `Recommend Ward Smart Access solution for:
+- Door: ${request.doorType}
+- Usage: ${request.usageType}
+- Connectivity: ${request.connectivityPreference}
+- Budget: ${request.budget}
+
+Available: Yale deadbolts, Nuki retrofit locks, Aqara sensors. Addis Ababa market.`,
+      config: {
+        responseMimeType: "application/json",
+        responseSchema: {
+          type: Type.OBJECT,
+          properties: {
+            recommendedProductId: { type: Type.STRING },
+            reasoning: { type: Type.STRING },
+            securityTips: {
+              type: Type.ARRAY,
+              items: { type: Type.STRING }
+            }
+          },
+          required: ["recommendedProductId", "reasoning", "securityTips"]
+        }
+      }
+    });
+
+    const response = await Promise.race([responsePromise, timeoutPromise]) as any;
+
     return JSON.parse(response.text);
-  } catch (e) {
-    console.error("Failed to parse Gemini response", e);
-    return null;
+  } catch (error) {
+    console.error("Gemini API error:", error);
+    return {
+      recommendedProductId: "ward-retrofit-pro",
+      reasoning: "Based on your requirements, we recommend our most popular retrofit solution. Please contact us for a personalized consultation.",
+      securityTips: [
+        "Ensure your door frame is solid and properly installed",
+        "Test all access methods regularly",
+        "Keep firmware updated for security patches"
+      ]
+    };
   }
 };
 
 export const analyzeDoorImage = async (base64Image: string) => {
-  const imagePart = {
-    inlineData: {
-      mimeType: 'image/jpeg',
-      data: base64Image
-    }
-  };
+  try {
+    const imagePart = {
+      inlineData: {
+        mimeType: 'image/jpeg',
+        data: base64Image
+      }
+    };
 
-  const textPart = {
-    text: "Analyze this door as a consultant for Ward Smart Access. Determine if it is best for a retrofit lock (like Nuki) or a full deadbolt replacement (like Yale). Mention any specific installation challenges you see. Keep the tone professional and helpful."
-  };
+    const textPart = {
+      text: "Analyze this door for Ward Smart Access. Is it better for retrofit lock or full replacement? Note any installation challenges."
+    };
 
-  const response = await ai.models.generateContent({
-    model: 'gemini-3-flash-preview',
-    contents: { parts: [imagePart, textPart] }
-  });
+    // Add timeout for image analysis
+    const timeoutPromise = new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('Image analysis timeout')), 15000)
+    );
 
-  return response.text;
+    const responsePromise = ai.models.generateContent({
+      model: 'gemini-1.5-flash',
+      contents: { parts: [imagePart, textPart] }
+    });
+
+    const response = await Promise.race([responsePromise, timeoutPromise]) as any;
+
+    return response.text;
+  } catch (error) {
+    console.error("Image analysis error:", error);
+    return "Unable to analyze the image. Please ensure it's a clear photo of a door and try again. For personalized advice, contact our consultants directly.";
+  }
 };
