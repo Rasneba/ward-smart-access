@@ -14,23 +14,17 @@ export interface FormSubmission {
 class FormSubmissionService {
   private submissions: FormSubmission[] = [];
   private config: {
-    emailEnabled: boolean;
-    emailRecipient: string;
-    smtpServer?: string;
-    smtpPort?: number;
-    smtpUser?: string;
-    smtpPassword?: string;
+    telegramEnabled: boolean;
+    telegramBotToken: string;
+    telegramChatId: string;
   };
 
   constructor() {
     // Load configuration from environment variables (can be set from Web.config)
     this.config = {
-      emailEnabled: (import.meta as any).env?.VITE_EMAIL_ENABLED === 'true' || false,
-      emailRecipient: (import.meta as any).env?.VITE_EMAIL_RECIPIENT || 'admin@ward.et',
-      smtpServer: (import.meta as any).env?.VITE_SMTP_SERVER || 'smtp.gmail.com',
-      smtpPort: parseInt((import.meta as any).env?.VITE_SMTP_PORT || '587'),
-      smtpUser: (import.meta as any).env?.VITE_SMTP_USER,
-      smtpPassword: (import.meta as any).env?.VITE_SMTP_PASSWORD,
+      telegramEnabled: (import.meta as any).env?.VITE_TELEGRAM_ENABLED === 'true' || false,
+      telegramBotToken: (import.meta as any).env?.VITE_TELEGRAM_BOT_TOKEN || '',
+      telegramChatId: (import.meta as any).env?.VITE_TELEGRAM_CHAT_ID || 'Rasneba1',
     };
 
     // Load existing submissions from localStorage (for demo purposes)
@@ -72,9 +66,9 @@ class FormSubmissionService {
     this.submissions.push(submission);
     this.saveSubmissions();
 
-    // Send email if configured
-    if (this.config.emailEnabled) {
-      await this.sendEmailNotification(submission);
+    // Send telegram if configured
+    if (this.config.telegramEnabled) {
+      await this.sendTelegramNotification(submission);
     }
 
     // Log to console for debugging
@@ -87,39 +81,42 @@ class FormSubmissionService {
     return 'sub_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
   }
 
-  private async sendEmailNotification(submission: FormSubmission): Promise<void> {
-    // This is a placeholder for email functionality
-    // In a real implementation, you would use a service like:
-    // - SendGrid
-    // - Mailgun
-    // - AWS SES
-    // - Node.js server with nodemailer
-    // - Netlify Functions
+  private async sendTelegramNotification(submission: FormSubmission): Promise<void> {
+    const url = `https://api.telegram.org/bot${this.config.telegramBotToken}/sendMessage`;
 
-    const emailContent = {
-      to: this.config.emailRecipient,
-      subject: `New Ward Service Request - ${submission.service}`,
-      html: `
-        <h2>New Service Request Received</h2>
-        <p><strong>Name:</strong> ${submission.name}</p>
-        <p><strong>Email:</strong> ${submission.email}</p>
-        <p><strong>Phone:</strong> ${submission.phone}</p>
-        <p><strong>Company:</strong> ${submission.company || 'Not provided'}</p>
-        <p><strong>Service:</strong> ${submission.service}</p>
-        <p><strong>Message:</strong></p>
-        <p>${submission.message.replace(/\n/g, '<br>')}</p>
-        <p><strong>Submitted:</strong> ${submission.submittedAt.toLocaleString()}</p>
-        <hr>
-        <p>Please contact the client within 24 hours.</p>
-      `
-    };
+    const text = `New Service Request Received
 
-    // For now, we'll just log the email content
-    // In production, replace this with actual email sending
-    console.log('Email notification would be sent:', emailContent);
+Name: ${submission.name}
+Email: ${submission.email}
+Phone: ${submission.phone}
+Company: ${submission.company || 'Not provided'}
+Service: ${submission.service}
+Message:
 
-    // Simulate email sending delay
-    await new Promise(resolve => setTimeout(resolve, 1000));
+${submission.message}
+
+Submitted: ${submission.submittedAt.toLocaleString()}
+
+Please contact the client within 24 hours.`;
+
+    const response = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        chat_id: this.config.telegramChatId,
+        text: text,
+      }),
+    });
+
+    if (!response.ok) {
+      const error = await response.text();
+      throw new Error(`Failed to send Telegram message: ${response.status} ${error}`);
+    }
+
+    const result = await response.json();
+    console.log('Telegram message sent:', result);
   }
 
   getSubmissions(): FormSubmission[] {
