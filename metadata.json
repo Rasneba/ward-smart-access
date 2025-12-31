@@ -1,0 +1,7 @@
+{
+  "name": "Ward Smart Access & IT Solutions - Ethiopia",
+  "description": "Premium smart home security and IT infrastructure solutions in Addis Ababa. Featuring Nuki-style retrofit locks, Yale-standard security, and AI-powered advisor experiences.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
