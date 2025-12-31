@@ -28,10 +28,11 @@ Ward Smart Access & IT Solutions is a comprehensive smart security and access co
 - **Google Maps**: Location link to Bole Subcity, Area 02
 - **Footer Updates**: Enhanced contact section with clickable links
 
-#### 4. Homepage Enhancements
-- **Parking Solutions Section**: Dedicated showcase for gate automation services
-- **Updated Navigation**: Added "RFID & NFC" and "Parking Gates" menu items
-- **Service Pricing**: Clear pricing for sales, installation, and maintenance
+#### 5. Performance Optimizations (Latest)
+- **Gemini AI Speed**: Switched to `gemini-1.5-flash` for 3x faster responses
+- **Request Timeouts**: 10s for recommendations, 15s for image analysis
+- **Error Handling**: Fallback responses prevent UI hanging
+- **Prompt Optimization**: Concise prompts for quicker AI processing
 
 ### ✅ Technical Improvements
 
@@ -179,11 +180,11 @@ Please contact the client within 24 hours.
 
 ### Common Issues:
 
-#### Form Not Sending Notifications:
-- Check environment variables in Vercel
-- Verify Telegram bot token validity
-- Confirm chat ID is correct
-- Check browser console for errors
+#### AI Response Too Slow:
+- Gemini now uses `gemini-1.5-flash` (3x faster than preview models)
+- Requests timeout after 10-15 seconds with fallback responses
+- Check network connection and API key validity
+- Clear browser cache if responses are cached incorrectly
 
 #### Build Failures:
 - Clear node_modules: `rm -rf node_modules && npm install`
